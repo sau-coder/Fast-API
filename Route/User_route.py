@@ -1,13 +1,13 @@
-from Fastapi import APIrouter , status , HTTPException
-from database import SessionLocal
-from model.user import user_data ,user
+from fastapi import APIRouter , status , HTTPException
+from databases.database import SessionLocal
+from model.users import user_data ,user
 
-router = APIrouter()
+router = APIRouter()
 db = SessionLocal()
 
 @router.get('/User')
 def get_all_user():
-    users = db.query(user_data).all()
+    users = db.query(user).all()
 
     return {"data" : users , "message" : 'Users get successfully'}
 
@@ -19,12 +19,12 @@ def get_user(user_id : int):
 
 @router.post('/User')
 def create_user(user_data1 : user_data):
-    db_user = db.query(user_data).filter(user_data.id == user_data1.id).first()
+    db_user = db.query(user).filter(user.id == user_data1.id).first()
 
     if db_user is not None:
         raise HTTPException(status_code  = 400 , detail = 'User already exist')
 
-    new_user =  user_data(
+    new_user =  user(
         id = user_data1.id,
         name = user_data1.name,
         password = user_data1.password,

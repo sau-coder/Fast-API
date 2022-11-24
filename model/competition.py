@@ -1,18 +1,16 @@
 from pydantic import BaseModel
-from database import base
-from sqlalchemy import string , Boolean , Integer , Column , DateTime , ForeignKey 
-from sqlalchemy import MetaData
-from model.user import user
-metadata_obj = MetaData()
+from sqlalchemy import String , Boolean , Integer , Column , DateTime , ForeignKey 
+from model.users import user
+from databases.database import base
 
 class Competition_data(BaseModel):
-    Compitition_id : int
+    Competition_id : int
     Name : str
     Status : str
     Url : str
     Is_deleted : bool
-    Created_at : DateTime
-    Updated_at : DateTime
+    Created_at : str
+    Updated_at : str
     id : int
     
     class config:
@@ -21,13 +19,13 @@ class Competition_data(BaseModel):
 
 class competition(base):
     __tablename__ = 'Competition'
-    Compitition_id = Column(int , primary_key = True)
-    Name = Column(str)
-    Status = Column(str)
-    Url = Column(str)
-    Is_deleted = Column(bool)
-    Created_at = Column(DateTime)
-    Updated_at = Column(DateTime)
-    id = Column(int , ForeignKey(user.id))
+    Competition_id = Column(Integer , primary_key = True)
+    Name = Column(String)
+    Status = Column(String)
+    Url = Column(String)
+    Is_deleted = Column(Boolean)
+    Created_at = Column(String)
+    Updated_at = Column(String)
+    id = Column(Integer , ForeignKey(user.id))
 
 

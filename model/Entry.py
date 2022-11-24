@@ -1,5 +1,5 @@
 from pydantic import BaseModel
-from database import base
+from databases.database import base
 from sqlalchemy import String , Integer , Boolean , DateTime , Column , ForeignKey
 from model.competition import competition
 
@@ -9,22 +9,23 @@ class entry_data(BaseModel):
     Status : str
     Country : str
     Is_deleted : bool
-    Created_at : DateTime
-    Updated_at : DateTime
-    Comp_id : int
+    Created_at : str
+    Updated_at : str
+    Competition_id : int
 
     class config:
         orm_mode = True
 
 class entry(base):
-    __
-    Entry_id = Column(int , primary_key = True)
-    Name = Column(str)
-    Status = Column(str)
-    Country = Column(str)
-    Is_deleted  = Column(bool)
-    Created_at = Column(DateTime)
-    Updated_at = Column(DateTime)
-    Comp_id = Column(int , ForeignKey(competition.Comp_id))
+    __tablename__='entry'
+    Entry_id = Column(Integer , primary_key = True)
+    Name = Column(String)
+    Status = Column(String)
+    Country = Column(String)
+    Is_deleted  = Column(Boolean)
+    Created_at = Column(String)
+    Updated_at = Column(String)
+    Competition_id = Column(Integer , ForeignKey(competition.Competition_id))
+
 
 
