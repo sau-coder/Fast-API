@@ -5,23 +5,23 @@ from model.competition import competition , Competition_data
 router = APIRouter()
 db = SessionLocal()
 
-@router.get('/competition',status_code = 200)
+@router.get('/competition',status_code=status.HTTP_201_CREATED)
 def get_all_competition():
     competitions = db.query(competition).all()
 
-    return {'data' : competitions , status : 200 , 'message' : 'competition get successfully'}
+    return {'data' : competitions , 'status' : 200 , 'message' : 'competition get successfully'}
 
 
-@router.get('/compitition/{competition_id}')
+@router.get('/competition/{competition_id}')
 def get_competition(competition_id : int):
-    Competition = db.query(competition.id == competition_id).first()
+    Competition = db.query(competition).filter(competition.Competition_id == competition_id).first()
 
     return {'data' : Competition , 'status' : 200 , 'message' : 'competition retrived successfully'}
 
 
 @router.post('/competition' , status_code = status.HTTP_201_CREATED)
-def create_competition(competition1 = Competition_data):
-    db_competition = db.query(competition).filter(Competition_data.id == competition.id).first()
+def create_competition(competition1 : Competition_data):
+    db_competition = db.query(competition).filter(competition.Competition_id == competition1.Competition_id).first()
 
     if db_competition is not None:
         raise HTTPException(status_code=400 , detail = 'Compatition already exist')
@@ -61,9 +61,9 @@ def update_a_competition(competition_id : int , competition1 : Competition_data)
     return{'status' : 200 , 'message' : 'competition updated successfully'}
 
 
-@router.delete('/competiton/{competition_id}')
+@router.delete('/competition/{competition_id}')
 def delete_competition(competition_id : int):
-    competition_to_delete = db.query(competition).filter(competition.id == competition_id).first()
+    competition_to_delete = db.query(competition).filter(competition.Competition_id == competition_id).first()
 
     if competition_to_delete is None:
         raise HTTPException(

@@ -46,8 +46,8 @@ def create_entry(Entry_data : entry_data):
 
 @router.put('/entry/{entry_id}' , status_code=status.HTTP_200_OK)
 def update_an_entry(entry_id : int , Entry : entry_data):
-    Entry_update = db.query(entry).filter(entry.id == entry_id).first()
-
+    Entry_update = db.query(entry).filter(entry.Entry_id == entry_id).first()
+    breakpoint()
     Entry_update.Entry_id = Entry.Entry_id,
     Entry_update.Name = Entry.Name,
     Entry_update.Status = Entry.Status,
@@ -57,12 +57,12 @@ def update_an_entry(entry_id : int , Entry : entry_data):
     Entry_update.Updated_at = Entry.Updated_at,
     Entry_update.Competition_id = Entry.Competition_id
 
-    db.commmit()
+    db.commit()
 
     return {'status' : 200 , 'message' : 'Entry updated successfully.'}
 
 
-@router.delete('entry/{entry_id}')
+@router.delete('/entry/{entry_id}')
 def delete_an_entry(Entry_id : int):
     
     delete_entry = db.quary(entry).filter(entry.id == Entry_id)

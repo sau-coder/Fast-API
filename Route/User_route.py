@@ -5,19 +5,19 @@ from model.users import user_data ,user
 router = APIRouter()
 db = SessionLocal()
 
-@router.get('/User')
+@router.get('/user')
 def get_all_user():
     users = db.query(user).all()
 
     return {"data" : users , "message" : 'Users get successfully'}
 
-@router.get('/User/{user_id}')
+@router.get('/user/{user_id}')
 def get_user(user_id : int):
     user = db.query(user_data).filter(user_data.id == user_id)
     
     return {'data' : user , 'message' : 'User retrived successfully'}
 
-@router.post('/User')
+@router.post('/user')
 def create_user(user_data1 : user_data):
     db_user = db.query(user).filter(user.id == user_data1.id).first()
 
@@ -31,7 +31,7 @@ def create_user(user_data1 : user_data):
         is_deleted = user_data1.is_deleted,
         email = user_data1.email,
         created_at = user_data1.created_at,
-        updated_at = user_data1.updated_at
+        Updated_at = user_data1.updated_at
     )     
 
     db.add(new_user)
@@ -39,23 +39,23 @@ def create_user(user_data1 : user_data):
 
     return {'status' : 200 , 'message' : 'User added successfully'}
 
-@router.put('User/{user_id}' , status_code = status.HTTP_200_OK)
+@router.put('/user/{user_id}' , status_code = status.HTTP_200_OK)
 def update_user(user_id : int  , user1 : user_data):
 
-    user_to_update = db.quary(user).filter(user.id ==user_id).first()
+    user_to_update = db.query(user).filter(user.id == user_id).first()
     user_to_update.id = user1.id
     user_to_update.name = user1.name
     user_to_update.password = user1.password
     user_to_update.is_deleted = user1.is_deleted
     user_to_update.email = user1.email
-    user_to_update.created_by = user1.created_at
-    user_to_update.update_by = user1.updated_at
+    user_to_update.created_at = user1.created_at
+    user_to_update.Update_at = user1.updated_at
 
     db.commit()
 
     return {'status' : 200 , 'message' : 'user updated successfully'}
 
-@router.delete('/User/{user_id}')
+@router.delete('/user/{user_id}')
 def delete_user(user_id : int):
     user_to_delete = db.query(user).filter(user.id == user_id).first()
     if user_to_delete is None:
