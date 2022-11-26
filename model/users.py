@@ -2,7 +2,7 @@ from pydantic import BaseModel
 from databases.database import base
 from sqlalchemy import String , Boolean , Integer , Column , DateTime
 
-class user_data(BaseModel):
+class UserData(BaseModel):
     id : int
     name : str
     password : str
@@ -16,7 +16,7 @@ class user_data(BaseModel):
         arbitrary_types_allowed = True
     
 
-class user(base):
+class User(base):
     __tablename__ = 'User'
     id = Column(Integer , primary_key = True)
     name = Column(String)

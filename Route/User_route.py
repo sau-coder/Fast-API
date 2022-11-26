@@ -1,30 +1,30 @@
 from fastapi import APIRouter , status , HTTPException
 from databases.database import SessionLocal
-from model.users import user_data ,user
+from model.users import UserData ,User
 
 router = APIRouter()
 db = SessionLocal()
 
 @router.get('/user')
 def get_all_user():
-    users = db.query(user).all()
+    users = db.query(User).all()
 
     return {"data" : users , "message" : 'Users get successfully'}
 
 @router.get('/user/{user_id}')
 def get_user(user_id : int):
-    user = db.query(user_data).filter(user_data.id == user_id)
+    user = db.query(User).filter(UserData.id == user_id)
     
     return {'data' : user , 'message' : 'User retrived successfully'}
 
 @router.post('/user')
-def create_user(user_data1 : user_data):
-    db_user = db.query(user).filter(user.id == user_data1.id).first()
+def create_user(user_data1 : UserData):
+    db_user = db.query(User).filter(user.id == UserData.id).first()
 
     if db_user is not None:
         raise HTTPException(status_code  = 400 , detail = 'User already exist')
 
-    new_user =  user(
+    new_user =  User(
         id = user_data1.id,
         name = user_data1.name,
         password = user_data1.password,
@@ -40,9 +40,9 @@ def create_user(user_data1 : user_data):
     return {'status' : 200 , 'message' : 'User added successfully'}
 
 @router.put('/user/{user_id}' , status_code = status.HTTP_200_OK)
-def update_user(user_id : int  , user1 : user_data):
+def update_user(user_id : int  , user1 : UserData):
 
-    user_to_update = db.query(user).filter(user.id == user_id).first()
+    user_to_update = db.query(User).filter(User.id == user_id).first()
     user_to_update.id = user1.id
     user_to_update.name = user1.name
     user_to_update.password = user1.password
@@ -57,7 +57,7 @@ def update_user(user_id : int  , user1 : user_data):
 
 @router.delete('/user/{user_id}')
 def delete_user(user_id : int):
-    user_to_delete = db.query(user).filter(user.id == user_id).first()
+    user_to_delete = db.query(User).filter(User.id == user_id).first()
     if user_to_delete is None:
         raise HTTPException(
             stutus_code =  status.HTTP_404_NOT_FOUND,detail = 'User not found')

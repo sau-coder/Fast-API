@@ -1,39 +1,39 @@
 from fastapi import APIRouter , status ,HTTPException
 from databases.database import SessionLocal
-from model.competition import competition , Competition_data
+from model.competition import Competition , CompetitionData
 
 router = APIRouter()
 db = SessionLocal()
 
 @router.get('/competition',status_code=status.HTTP_201_CREATED)
 def get_all_competition():
-    competitions = db.query(competition).all()
+    competitions = db.query(Competition).all()
 
     return {'data' : competitions , 'status' : 200 , 'message' : 'competition get successfully'}
 
 
 @router.get('/competition/{competition_id}')
 def get_competition(competition_id : int):
-    Competition = db.query(competition).filter(competition.Competition_id == competition_id).first()
+    competition = db.query(Competition).filter(Competition.competition_id == competition_id).first()
 
-    return {'data' : Competition , 'status' : 200 , 'message' : 'competition retrived successfully'}
+    return {'data' : competition , 'status' : 200 , 'message' : 'competition retrived successfully'}
 
 
 @router.post('/competition' , status_code = status.HTTP_201_CREATED)
-def create_competition(competition1 : Competition_data):
-    db_competition = db.query(competition).filter(competition.Competition_id == competition1.Competition_id).first()
+def create_competition(competition1 : CompetitionData):
+    db_competition = db.query(Competition).filter(Competition.competition_id == competition1.competition_id).first()
 
     if db_competition is not None:
         raise HTTPException(status_code=400 , detail = 'Compatition already exist')
 
-    new_compatition = competition(
-        Competition_id = competition1.Competition_id,
-        Name = competition1.Name,
-        Status = competition1.Status,
-        Url = competition1.Url,
-        Is_deleted = competition1.Is_deleted,
-        Created_at = competition1.Created_at,
-        Updated_at = competition1.Updated_at,
+    new_compatition = Competition(
+        competition_id = competition1.competition_id,
+        name = competition1.name,
+        status = competition1.status,
+        url = competition1.url,
+        is_deleted = competition1.is_deleted,
+        created_at = competition1.created_at,
+        updated_at = competition1.updated_at,
         id = competition1.id  
     )
 
@@ -44,16 +44,16 @@ def create_competition(competition1 : Competition_data):
 
 
 @router.put('/competition/{competition_id}' , status_code = status.HTTP_200_OK)
-def update_a_competition(competition_id : int , competition1 : Competition_data):
+def update_a_competition(competition_id : int , competition1 : CompetitionData):
 
-    competition_to_update = db.query(competition).filter(competition.id == competition_id)
-    competition_to_update.Competition_id = competition1.Competition_id,
-    competition_to_update.Name = competition1.Name,
-    competition_to_update.Status = competition1.Status,
-    competition_to_update.Url = competition1.Url,
-    competition_to_update.Is_deleted = competition1.Is_deleted,
-    competition_to_update.Created_at = competition1.Created_at,
-    competition_to_update.Updated_at = competition1.Updated_at,
+    competition_to_update = db.query(Competition).filter(Competition.id == competition_id)
+    competition_to_update.competition_id = competition1.competition_id,
+    competition_to_update.name = competition1.name,
+    competition_to_update.status = competition1.status,
+    competition_to_update.url = competition1.url,
+    competition_to_update.is_deleted = competition1.is_deleted,
+    competition_to_update.created_at = competition1.created_at,
+    competition_to_update.updated_at = competition1.updated_at,
     competition_to_update.id = competition1.id
 
     db.commit()
@@ -63,7 +63,7 @@ def update_a_competition(competition_id : int , competition1 : Competition_data)
 
 @router.delete('/competition/{competition_id}')
 def delete_competition(competition_id : int):
-    competition_to_delete = db.query(competition).filter(competition.Competition_id == competition_id).first()
+    competition_to_delete = db.query(Competition).filter(Competition.competition_id == competition_id).first()
 
     if competition_to_delete is None:
         raise HTTPException(

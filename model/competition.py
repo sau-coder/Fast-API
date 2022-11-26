@@ -1,31 +1,31 @@
 from pydantic import BaseModel
 from sqlalchemy import String , Boolean , Integer , Column , DateTime , ForeignKey 
-from model.users import user
+from model.users import User
 from databases.database import base
 
-class Competition_data(BaseModel):
-    Competition_id : int
-    Name : str
-    Status : str
-    Url : str
-    Is_deleted : bool
-    Created_at : str
-    Updated_at : str
+class CompetitionData(BaseModel):
+    competition_id : int
+    name : str
+    status : str
+    url : str
+    is_deleted : bool
+    created_at : str
+    updated_at : str
     id : int
     
     class config:
         orm_mode = True
 
 
-class competition(base):
+class Competition(base):
     __tablename__ = 'Competition'
-    Competition_id = Column(Integer , primary_key = True)
-    Name = Column(String)
-    Status = Column(String)
-    Url = Column(String)
-    Is_deleted = Column(Boolean)
-    Created_at = Column(String)
-    Updated_at = Column(String)
-    id = Column(Integer , ForeignKey(user.id))
+    competition_id = Column(Integer , primary_key = True)
+    name = Column(String)
+    status = Column(String)
+    url = Column(String)
+    is_deleted = Column(Boolean)
+    created_at = Column(String)
+    updated_at = Column(String)
+    id = Column(Integer , ForeignKey(User.id))
 
 
