@@ -1,6 +1,7 @@
 from fastapi import APIRouter , status ,HTTPException
 from databases.database import SessionLocal
-from model.competition import Competition , CompetitionData
+from competition.competition_schema import Competition
+from competition.competition_model import CompetitionData
 
 router = APIRouter()
 db = SessionLocal()

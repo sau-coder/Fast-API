@@ -1,21 +1,6 @@
-from pydantic import BaseModel
-from typing import Union, Optional
 from databases.database import base
 from sqlalchemy import String , Integer , Boolean , DateTime , Column , ForeignKey
-from model.competition import Competition
-
-class EntryData(BaseModel):
-    entry_id : Optional[int] = None
-    name : Optional[str] = None
-    status : Optional[str] = None
-    country : Optional[str] = None
-    is_deleted : Optional[bool]
-    created_at : Optional[str] = None
-    updated_at : Optional[str] =None
-    competition_id : Optional[int] = None
-
-    class config:
-        orm_mode = True
+from competition.competition_schema import Competition
 
 class Entry(base):
     __tablename__='entry'

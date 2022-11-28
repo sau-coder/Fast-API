@@ -1,7 +1,7 @@
 from fastapi import FastAPI
-from Route.User_route import router as user_router
-from Route.competition_route import router as competition_router
-from Route.Entry_route import router as entry_router
+from user.user_route import router as user_router
+from competition.competition_route import router as competition_router
+from entry.entry_route import router as entry_router
 
 app = FastAPI()
 

@@ -1,20 +1,5 @@
-from pydantic import BaseModel
 from databases.database import base
 from sqlalchemy import String , Boolean , Integer , Column , DateTime
-
-class UserData(BaseModel):
-    id : int
-    name : str
-    password : str
-    is_deleted : bool
-    email : str
-    created_at : str
-    updated_at : str
-
-    class Config:
-        orm_mode = True
-        arbitrary_types_allowed = True
-    
 
 class User(base):
     __tablename__ = 'User'

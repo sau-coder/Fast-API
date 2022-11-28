@@ -1,7 +1,9 @@
 from fastapi import APIRouter ,status , HTTPException
-from model.Entry import Entry , EntryData
+from entry.entry_schema import Entry
+from entry.entry_model import EntryData
 from databases.database import SessionLocal
 from datetime import datetime
+from sqlalchemy import update
 
 router = APIRouter()
 db = SessionLocal()
@@ -45,11 +47,10 @@ def create_entry(entry_data : EntryData):
 
 
 
-@router.patch('/entry/{entry_id}' , status_code=status.HTTP_200_OK)
+@router.put('/entry/{entry_id}' , status_code=status.HTTP_200_OK)
 def update_an_entry(entry_id : int , entry : EntryData):
 
-    entry_update = db.query(Entry).filter(Entry.Entry_id == entry_id).first()
-
+    entry_update = db.query(Entry).filter(Entry.entry_id == entry_id).first()
     if entry_update.entry_id != None:
         entry_update.entry_id = entry.Entry_id
 
@@ -70,6 +71,8 @@ def update_an_entry(entry_id : int , entry : EntryData):
 
     if entry_update.competition_id != None:
         entry_update.competition = entry.competition_id
+    
+
 
 
     db.commit()

@@ -1,6 +1,7 @@
 from fastapi import APIRouter , status , HTTPException
 from databases.database import SessionLocal
-from model.users import UserData ,User
+from user.user_schema import User
+from user.user_model import UserData
 
 router = APIRouter()
 db = SessionLocal()
@@ -19,7 +20,7 @@ def get_user(user_id : int):
 
 @router.post('/user')
 def create_user(user_data1 : UserData):
-    db_user = db.query(User).filter(user.id == UserData.id).first()
+    db_user = db.query(User).filter(user_data1.id == User.id).first()
 
     if db_user is not None:
         raise HTTPException(status_code  = 400 , detail = 'User already exist')

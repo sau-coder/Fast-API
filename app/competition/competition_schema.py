@@ -1,21 +1,6 @@
-from pydantic import BaseModel
 from sqlalchemy import String , Boolean , Integer , Column , DateTime , ForeignKey 
-from model.users import User
+from user.user_schema import User
 from databases.database import base
-
-class CompetitionData(BaseModel):
-    competition_id : int
-    name : str
-    status : str
-    url : str
-    is_deleted : bool
-    created_at : str
-    updated_at : str
-    id : int
-    
-    class config:
-        orm_mode = True
-
 
 class Competition(base):
     __tablename__ = 'Competition'
